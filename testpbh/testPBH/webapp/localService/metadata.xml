@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+    xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata"
+    xmlns:sap="http://www.sap.com/Protocols/SAPData">
+    <edmx:Reference Uri="http://p4d:8010/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMON',Version='0001',SAP__Origin='LOCAL')/$value"
+        xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://p4d:8010/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_CAPABILITIES',Version='0001',SAP__Origin='LOCAL')/$value"
+        xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Capabilities.V1" Alias="Capabilities"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://p4d:8010/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_COMMUNICATION',Version='0001',SAP__Origin='LOCAL')/$value"
+        xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.Communication.v1" Alias="Communication"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://p4d:8010/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_AGGREGATION',Version='0001',SAP__Origin='LOCAL')/$value"
+        xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="Org.OData.Aggregation.V1" Alias="Aggregation"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="http://p4d:8010/sap/opu/odata/IWFND/CATALOGSERVICE;v=2/Vocabularies(TechnicalName='%2FIWBEP%2FVOC_PERSONALDATA',Version='0001',SAP__Origin='LOCAL')/$value"
+        xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+        <edmx:Include Namespace="com.sap.vocabularies.PersonalData.v1" Alias="PersonalData"/>
+    </edmx:Reference>
+    <edmx:DataServices m:DataServiceVersion="2.0">
+        <Schema Namespace="YC_FI_03_02_CDS" xml:lang="ru" sap:schema-version="1"
+            xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+            <EntityType Name="YC_AccDocItemStatusVHType" sap:label="Accounting Document Item clearing status" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ClearingStatusId"/>
+                </Key>
+                <Property Name="ClearingStatusId" Type="Edm.String" Nullable="false" MaxLength="1" sap:display-format="UpperCase" sap:label="Статус позиции"/>
+                <Property Name="Criticality" Type="Edm.Byte"/>
+                <Property Name="ClearingStatusText" Type="Edm.String" MaxLength="25" sap:label="Статус позиции"/>
+            </EntityType>
+            <EntityType Name="YC_AccDocItemTypeGLVHType" sap:label="Accounting Document Item GL type" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="ItemTypeId"/>
+                </Key>
+                <Property Name="ItemTypeId" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Тип позиции"/>
+                <Property Name="ItemTypeText" Type="Edm.String" MaxLength="25" sap:label="Тип позиции"/>
+            </EntityType>
+            <EntityType Name="YC_FI_03_02Type" sap:label="Budget holder payments" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="CompanyCodeId"/>
+                    <PropertyRef Name="FiscalYear"/>
+                    <PropertyRef Name="AccDocId"/>
+                    <PropertyRef Name="AccDocItemId"/>
+                </Key>
+                <Property Name="CompanyCodeId" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="БЕ" sap:quickinfo="Балансовая единица"/>
+                <Property Name="FiscalYear" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="Финансовый год"/>
+                <Property Name="AccDocId" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="№ документа" sap:quickinfo="Номер бухгалтерского документа"/>
+                <Property Name="AccDocItemId" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="NonNegative" sap:label="Позиция" sap:quickinfo="Номер строки проводки в рамках бухгалтерского документа"/>
+                <Property Name="ClearingStatusText" Type="Edm.String" MaxLength="25" sap:label="Статус позиции" sap:value-list="fixed-values"/>
+                <Property Name="ItemTypeText" Type="Edm.String" MaxLength="25" sap:label="Тип позиции" sap:value-list="fixed-values"/>
+                <Property Name="ClearingDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:filter-restriction="interval" sap:label="Дата выравнивания"/>
+                <Property Name="ClearingDocId" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="ДокумВыравнивания" sap:quickinfo="Номер документа выравнивания"/>
+                <Property Name="AmountDocCurrency" Type="Edm.Decimal" Precision="24" Scale="3" sap:unit="AccDocCurrencyId" sap:label="Сумма" sap:quickinfo="Сумма в валюте документа"/>
+                <Property Name="Text" Type="Edm.String" MaxLength="50" sap:label="Текст" sap:quickinfo="Текст к позиции"/>
+                <Property Name="VendorId" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Поставщик" sap:quickinfo="Номер счета поставщика или кредитора" sap:value-list="standard"/>
+                <Property Name="VendorName" Type="Edm.String" MaxLength="140" sap:label="Наименование" sap:quickinfo="Наименование поставщика"/>
+                <Property Name="FundsCenterId" Type="Edm.String" MaxLength="16" sap:display-format="UpperCase" sap:label="ПФМ" sap:quickinfo="Подразделение финансового менеджмента"/>
+                <Property Name="FundsCenterText" Type="Edm.String" MaxLength="40" sap:label="Описание"/>
+                <Property Name="PostingDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:filter-restriction="interval" sap:label="Дата проводки" sap:quickinfo="Дата проводки в документе"/>
+                <Property Name="Assignment" Type="Edm.String" MaxLength="18" sap:label="Присвоение" sap:quickinfo="Номер присвоения"/>
+                <Property Name="PaymentKeyTerm" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Условие платежа" sap:quickinfo="Код условий платежа"/>
+                <Property Name="PurchasingDocId" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Документ закупки" sap:quickinfo="Номер документа закупки"/>
+                <Property Name="PurchasingDocItemId" Type="Edm.String" MaxLength="5" sap:display-format="NonNegative" sap:label="Позиция" sap:quickinfo="Номер позиции документа закупки"/>
+                <Property Name="AccDocType" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Вид документа"/>
+                <Property Name="Criticality" Type="Edm.Byte"/>
+                <Property Name="AccDocCurrencyId" Type="Edm.String" MaxLength="5" sap:label="Валюта" sap:quickinfo="Код валюты" sap:semantics="currency-code"/>
+                <Property Name="Itemtype" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Тип позиции"/>
+                <Property Name="ClearingStatusId" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Статус позиции"/>
+                <Property Name="FinMngAreaId" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="ЕФМ" sap:quickinfo="Единица финансового менеджмента"/>
+                <Property Name="AccDocDate" Type="Edm.DateTime" Precision="0" sap:display-format="Date" sap:label="Дата документа"/>
+                <Property Name="FiscalPeriod" Type="Edm.String" MaxLength="2" sap:display-format="NonNegative" sap:label="Период проводки" sap:quickinfo="Месяц финансового года"/>
+                <Property Name="RefDocNo" Type="Edm.String" MaxLength="16" sap:display-format="UpperCase" sap:label="Ссылка" sap:quickinfo="Ссылочный номер документа"/>
+                <Property Name="CrossCompanyCodePostingTrxId" Type="Edm.String" MaxLength="16" sap:display-format="UpperCase" sap:label="Общий номер" sap:quickinfo="Номер операции по нескольким балансовым единицам"/>
+                <Property Name="LedgerGroupId" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Группа регистров"/>
+                <NavigationProperty Name="to_ClearingStatusHelp" Relationship="YC_FI_03_02_CDS.assoc_E4F5862104BE7DE926522D6E77620ADD" FromRole="FromRole_assoc_E4F5862104BE7DE926522D6E77620ADD" ToRole="ToRole_assoc_E4F5862104BE7DE926522D6E77620ADD"/>
+                <NavigationProperty Name="to_DocumentItem" Relationship="YC_FI_03_02_CDS.assoc_7064F2492D67293BF95B4C44AA73A815" FromRole="FromRole_assoc_7064F2492D67293BF95B4C44AA73A815" ToRole="ToRole_assoc_7064F2492D67293BF95B4C44AA73A815"/>
+                <NavigationProperty Name="to_FundsCenterText" Relationship="YC_FI_03_02_CDS.assoc_1185B2B678953D3FB342EAA6025145EC" FromRole="FromRole_assoc_1185B2B678953D3FB342EAA6025145EC" ToRole="ToRole_assoc_1185B2B678953D3FB342EAA6025145EC"/>
+                <NavigationProperty Name="to_ItemTypeHelp" Relationship="YC_FI_03_02_CDS.assoc_6C27DAAC1756F5E33F0161916B8E677C" FromRole="FromRole_assoc_6C27DAAC1756F5E33F0161916B8E677C" ToRole="ToRole_assoc_6C27DAAC1756F5E33F0161916B8E677C"/>
+                <NavigationProperty Name="to_VendorHelp" Relationship="YC_FI_03_02_CDS.assoc_2048D7668C5426FB050A0B03460D5465" FromRole="FromRole_assoc_2048D7668C5426FB050A0B03460D5465" ToRole="ToRole_assoc_2048D7668C5426FB050A0B03460D5465"/>
+            </EntityType>
+            <EntityType Name="YC_FI_03_02_AccDocItemType" sap:label="PBH accounting document" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="CompanyCodeId"/>
+                    <PropertyRef Name="AccDocId"/>
+                    <PropertyRef Name="FiscalYear"/>
+                    <PropertyRef Name="AccDocItemId"/>
+                </Key>
+                <Property Name="CompanyCodeId" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="БЕ" sap:quickinfo="Балансовая единица"/>
+                <Property Name="AccDocId" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="№ документа" sap:quickinfo="Номер бухгалтерского документа"/>
+                <Property Name="FiscalYear" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="NonNegative" sap:label="Финансовый год"/>
+                <Property Name="AccDocItemId" Type="Edm.String" Nullable="false" MaxLength="3" sap:display-format="NonNegative" sap:label="Позиция" sap:quickinfo="Номер строки проводки в рамках бухгалтерского документа"/>
+                <Property Name="DebitCreditFlag" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Индикатор Д/К" sap:quickinfo="Индикатор дебета/кредита"/>
+                <Property Name="PostingId" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Код проводки"/>
+                <Property Name="AccountType" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Вид счета"/>
+                <Property Name="IndicatorGL" Type="Edm.String" MaxLength="1" sap:display-format="UpperCase" sap:label="Код ОГК" sap:quickinfo="Код Особой главной книги"/>
+                <Property Name="AccountGL" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Счет Главной книги" sap:quickinfo="Основной счет главной бухгалтерии"/>
+                <Property Name="PostingNegativeFlag" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Красное сторно" sap:quickinfo="Индикатор: красное сторно"/>
+                <Property Name="SalesTaxId" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Код НДС" sap:quickinfo="Код налога с оборота"/>
+                <Property Name="TransactionId" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Операция" sap:quickinfo="Код операции"/>
+                <Property Name="ClearingDocId" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="ДокумВыравнивания" sap:quickinfo="Номер документа выравнивания"/>
+                <Property Name="RelevantInvoiceId" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Ссылка на счет" sap:quickinfo="Номер счета-фактуры, к которому относится операция"/>
+                <Property Name="Account" Type="Edm.String" MaxLength="2" sap:display-format="UpperCase" sap:label="Бухгалтерский счет"/>
+                <Property Name="Assignment" Type="Edm.String" MaxLength="18" sap:label="Присвоение" sap:quickinfo="Номер присвоения"/>
+                <Property Name="FundsCenterId" Type="Edm.String" MaxLength="16" sap:display-format="UpperCase" sap:label="ПФМ" sap:quickinfo="Подразделение финансового менеджмента"/>
+                <Property Name="MeasureBaseUnitId" Type="Edm.String" MaxLength="24" sap:display-format="UpperCase" sap:label="Программа бюджета"/>
+                <Property Name="CommitmentItemId" Type="Edm.String" MaxLength="24" sap:display-format="UpperCase" sap:label="Финансовая позиция"/>
+                <Property Name="Text" Type="Edm.String" MaxLength="50" sap:label="Текст" sap:quickinfo="Текст к позиции"/>
+                <Property Name="BusinessPartnerReferenceKey1" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Ссылочный ключ 1" sap:quickinfo="Ссылочный ключ делового партнера"/>
+                <Property Name="BusinessPartnerReferenceKey2" Type="Edm.String" MaxLength="12" sap:display-format="UpperCase" sap:label="Ссылочный ключ 2" sap:quickinfo="Ссылочный ключ делового партнера"/>
+                <Property Name="BusinessPartnerReferenceKey3" Type="Edm.String" MaxLength="20" sap:display-format="UpperCase" sap:label="Ссылочный ключ 3" sap:quickinfo="Ссылочный ключ к позиции документа"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Precision="13" Scale="3" sap:unit="BaseUnitId" sap:label="Количество"/>
+                <Property Name="BaseUnitId" Type="Edm.String" MaxLength="3" sap:label="Базовая ЕИ" sap:quickinfo="Базовая единица измерения" sap:semantics="unit-of-measure"/>
+            </EntityType>
+            <EntityType Name="YC_FundsCenterVHType" sap:label="Item clearing status" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="FinMngAreaId"/>
+                    <PropertyRef Name="FundsCenterId"/>
+                    <PropertyRef Name="ValidTo"/>
+                </Key>
+                <Property Name="FinMngAreaId" Type="Edm.String" Nullable="false" MaxLength="4" sap:display-format="UpperCase" sap:label="ЕФМ" sap:quickinfo="Единица финансового менеджмента"/>
+                <Property Name="FundsCenterId" Type="Edm.String" Nullable="false" MaxLength="16" sap:display-format="UpperCase" sap:label="ПФМ" sap:quickinfo="Подразделение финансового менеджмента"/>
+                <Property Name="ValidTo" Type="Edm.DateTime" Nullable="false" Precision="0" sap:display-format="Date" sap:label="Действительно по" sap:quickinfo="ФМ: дата окончания срока действия"/>
+                <Property Name="Description" Type="Edm.String" MaxLength="40" sap:label="Описание"/>
+            </EntityType>
+            <EntityType Name="YC_SupplierVHType" sap:label="Supplier Master (General Section)" sap:content-version="1">
+                <Key>
+                    <PropertyRef Name="VendorId"/>
+                </Key>
+                <Property Name="VendorId" Type="Edm.String" Nullable="false" MaxLength="10" sap:display-format="UpperCase" sap:label="Поставщик" sap:quickinfo="Номер счета поставщика или кредитора"/>
+                <Property Name="Name" Type="Edm.String" MaxLength="140" sap:label="Наименование" sap:quickinfo="Наименование поставщика"/>
+                <Property Name="AuthorizationGroupId" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Полномочия" sap:quickinfo="Группа полномочий"/>
+                <Property Name="VendorAccGroupId" Type="Edm.String" MaxLength="4" sap:display-format="UpperCase" sap:label="Группа счетов" sap:quickinfo="Группа счетов кредиторов"/>
+                <Property Name="CountryId" Type="Edm.String" MaxLength="3" sap:display-format="UpperCase" sap:label="Страна" sap:quickinfo="Код страны"/>
+                <Property Name="CentralDeletionFlag" Type="Edm.Boolean" sap:display-format="UpperCase" sap:label="Метка удаления" sap:quickinfo="Центральная метка удаления основной записи"/>
+                <Property Name="SearchTerm1" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Имя" sap:quickinfo="Критерий поиска для использования кодов поиска"/>
+                <Property Name="SearchTerm3" Type="Edm.String" MaxLength="25" sap:display-format="UpperCase" sap:label="Город" sap:quickinfo="Критерий поиска для использования кодов поиска"/>
+                <Property Name="PostalCode" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="П/индекс" sap:quickinfo="Почтовый индекс"/>
+                <Property Name="SortField" Type="Edm.String" MaxLength="10" sap:display-format="UpperCase" sap:label="Критерий поиска" sap:quickinfo="ПолеСорт"/>
+            </EntityType>
+            <Association Name="assoc_7064F2492D67293BF95B4C44AA73A815" sap:content-version="1">
+                <End Type="YC_FI_03_02_CDS.YC_FI_03_02Type" Multiplicity="1" Role="FromRole_assoc_7064F2492D67293BF95B4C44AA73A815"/>
+                <End Type="YC_FI_03_02_CDS.YC_FI_03_02_AccDocItemType" Multiplicity="*" Role="ToRole_assoc_7064F2492D67293BF95B4C44AA73A815"/>
+            </Association>
+            <Association Name="assoc_1185B2B678953D3FB342EAA6025145EC" sap:content-version="1">
+                <End Type="YC_FI_03_02_CDS.YC_FI_03_02Type" Multiplicity="1" Role="FromRole_assoc_1185B2B678953D3FB342EAA6025145EC"/>
+                <End Type="YC_FI_03_02_CDS.YC_FundsCenterVHType" Multiplicity="0..1" Role="ToRole_assoc_1185B2B678953D3FB342EAA6025145EC"/>
+            </Association>
+            <Association Name="assoc_6C27DAAC1756F5E33F0161916B8E677C" sap:content-version="1">
+                <End Type="YC_FI_03_02_CDS.YC_FI_03_02Type" Multiplicity="1" Role="FromRole_assoc_6C27DAAC1756F5E33F0161916B8E677C"/>
+                <End Type="YC_FI_03_02_CDS.YC_AccDocItemTypeGLVHType" Multiplicity="0..1" Role="ToRole_assoc_6C27DAAC1756F5E33F0161916B8E677C"/>
+            </Association>
+            <Association Name="assoc_2048D7668C5426FB050A0B03460D5465" sap:content-version="1">
+                <End Type="YC_FI_03_02_CDS.YC_FI_03_02Type" Multiplicity="1" Role="FromRole_assoc_2048D7668C5426FB050A0B03460D5465"/>
+                <End Type="YC_FI_03_02_CDS.YC_SupplierVHType" Multiplicity="1" Role="ToRole_assoc_2048D7668C5426FB050A0B03460D5465"/>
+            </Association>
+            <Association Name="assoc_E4F5862104BE7DE926522D6E77620ADD" sap:content-version="1">
+                <End Type="YC_FI_03_02_CDS.YC_FI_03_02Type" Multiplicity="1" Role="FromRole_assoc_E4F5862104BE7DE926522D6E77620ADD"/>
+                <End Type="YC_FI_03_02_CDS.YC_AccDocItemStatusVHType" Multiplicity="1" Role="ToRole_assoc_E4F5862104BE7DE926522D6E77620ADD"/>
+            </Association>
+            <EntityContainer Name="YC_FI_03_02_CDS_Entities" m:IsDefaultEntityContainer="true" sap:message-scope-supported="true" sap:supported-formats="atom json xlsx">
+                <EntitySet Name="YC_AccDocItemStatusVH" EntityType="YC_FI_03_02_CDS.YC_AccDocItemStatusVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="YC_AccDocItemTypeGLVH" EntityType="YC_FI_03_02_CDS.YC_AccDocItemTypeGLVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="YC_FI_03_02" EntityType="YC_FI_03_02_CDS.YC_FI_03_02Type" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="YC_FI_03_02_AccDocItem" EntityType="YC_FI_03_02_CDS.YC_FI_03_02_AccDocItemType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <EntitySet Name="YC_FundsCenterVH" EntityType="YC_FI_03_02_CDS.YC_FundsCenterVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:searchable="true" sap:content-version="1"/>
+                <EntitySet Name="YC_SupplierVH" EntityType="YC_FI_03_02_CDS.YC_SupplierVHType" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1"/>
+                <AssociationSet Name="assoc_7064F2492D67293BF95B4C44AA73A815" Association="YC_FI_03_02_CDS.assoc_7064F2492D67293BF95B4C44AA73A815" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="YC_FI_03_02" Role="FromRole_assoc_7064F2492D67293BF95B4C44AA73A815"/>
+                    <End EntitySet="YC_FI_03_02_AccDocItem" Role="ToRole_assoc_7064F2492D67293BF95B4C44AA73A815"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_6C27DAAC1756F5E33F0161916B8E677C" Association="YC_FI_03_02_CDS.assoc_6C27DAAC1756F5E33F0161916B8E677C" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="YC_FI_03_02" Role="FromRole_assoc_6C27DAAC1756F5E33F0161916B8E677C"/>
+                    <End EntitySet="YC_AccDocItemTypeGLVH" Role="ToRole_assoc_6C27DAAC1756F5E33F0161916B8E677C"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_1185B2B678953D3FB342EAA6025145EC" Association="YC_FI_03_02_CDS.assoc_1185B2B678953D3FB342EAA6025145EC" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="YC_FI_03_02" Role="FromRole_assoc_1185B2B678953D3FB342EAA6025145EC"/>
+                    <End EntitySet="YC_FundsCenterVH" Role="ToRole_assoc_1185B2B678953D3FB342EAA6025145EC"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_E4F5862104BE7DE926522D6E77620ADD" Association="YC_FI_03_02_CDS.assoc_E4F5862104BE7DE926522D6E77620ADD" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="YC_FI_03_02" Role="FromRole_assoc_E4F5862104BE7DE926522D6E77620ADD"/>
+                    <End EntitySet="YC_AccDocItemStatusVH" Role="ToRole_assoc_E4F5862104BE7DE926522D6E77620ADD"/>
+                </AssociationSet>
+                <AssociationSet Name="assoc_2048D7668C5426FB050A0B03460D5465" Association="YC_FI_03_02_CDS.assoc_2048D7668C5426FB050A0B03460D5465" sap:creatable="false" sap:updatable="false" sap:deletable="false" sap:content-version="1">
+                    <End EntitySet="YC_FI_03_02" Role="FromRole_assoc_2048D7668C5426FB050A0B03460D5465"/>
+                    <End EntitySet="YC_SupplierVH" Role="ToRole_assoc_2048D7668C5426FB050A0B03460D5465"/>
+                </AssociationSet>
+            </EntityContainer>
+            <Annotations Target="YC_FI_03_02_CDS.YC_FI_03_02Type/ClearingStatusText"
+                xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Accounting Document Item clearing status"/>
+                        <PropertyValue Property="CollectionPath" String="YC_AccDocItemStatusVH"/>
+                        <PropertyValue Property="SearchSupported" Bool="true"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="ClearingStatusText"/>
+                                    <PropertyValue Property="ValueListProperty" String="ClearingStatusText"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="ClearingStatusId"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Criticality"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="YC_FI_03_02_CDS.YC_FI_03_02Type/ItemTypeText"
+                xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Accounting Document Item GL type"/>
+                        <PropertyValue Property="CollectionPath" String="YC_AccDocItemTypeGLVH"/>
+                        <PropertyValue Property="SearchSupported" Bool="true"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="ItemTypeText"/>
+                                    <PropertyValue Property="ValueListProperty" String="ItemTypeText"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="ItemTypeId"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="YC_FI_03_02_CDS.YC_FI_03_02Type/VendorId"
+                xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Common.ValueList">
+                    <Record>
+                        <PropertyValue Property="Label" String="Supplier Master (General Section)"/>
+                        <PropertyValue Property="CollectionPath" String="YC_SupplierVH"/>
+                        <PropertyValue Property="SearchSupported" Bool="false"/>
+                        <PropertyValue Property="Parameters">
+                            <Collection>
+                                <Record Type="Common.ValueListParameterInOut">
+                                    <PropertyValue Property="LocalDataProperty" PropertyPath="VendorId"/>
+                                    <PropertyValue Property="ValueListProperty" String="VendorId"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="Name"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="AuthorizationGroupId"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="VendorAccGroupId"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="CountryId"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="CentralDeletionFlag"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="SearchTerm1"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="SearchTerm3"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="PostalCode"/>
+                                </Record>
+                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                    <PropertyValue Property="ValueListProperty" String="SortField"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="YC_FI_03_02_CDS.YC_FI_03_02_CDS_Entities"
+                xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Aggregation.ApplySupported">
+                    <Record>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Rollup" EnumMember="None"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="YC_FI_03_02_CDS.YC_FI_03_02_CDS_Entities/YC_FI_03_02"
+                xmlns="http://docs.oasis-open.org/odata/ns/edm">
+                <Annotation Term="Capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="ClearingDate"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="PostingDate"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SingleRange"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <atom:link rel="self" href="http://p4d:8010/sap/opu/odata/sap/yc_fi_03_02_cds/$metadata"
+                xmlns:atom="http://www.w3.org/2005/Atom"/>
+                <atom:link rel="latest-version" href="http://p4d:8010/sap/opu/odata/sap/yc_fi_03_02_cds/$metadata"
+                    xmlns:atom="http://www.w3.org/2005/Atom"/>
+                </Schema>
+            </edmx:DataServices>
+        </edmx:Edmx>

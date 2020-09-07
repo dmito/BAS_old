@@ -1,0 +1,62 @@
+_schema-version: "3.2"
+ID: testpbh
+version: 0.0.1
+modules:
+- name: testpbh-approuter
+  type: approuter.nodejs
+  path: testpbh-approuter
+  requires:
+  - name: testpbh_html_repo_runtime
+  - name: dest_testpbh
+  - name: conn_testpbh
+  parameters:
+    disk-quota: 256M
+    memory: 256M
+- name: testpbh_ui_deployer
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: testpbh_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - testPBH-content.zip
+      name: testPBH
+      target-path: resources/
+- name: testPBH
+  type: html5
+  path: testPBH
+  build-parameters:
+    builder: custom
+    commands:
+    - npm run build
+    supported-platforms: []
+resources:
+- name: testpbh_html_repo_runtime
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-runtime
+- name: testpbh_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+- name: conn_testpbh
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: connectivity
+    service-plan: lite
+- name: dest_testpbh
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: destination
+    service-plan: lite
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm install

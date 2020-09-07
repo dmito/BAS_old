@@ -1,0 +1,17 @@
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="ns.testPBH.controller.Item" displayBlock="true">
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="page" title="{i18n>title}">
+					<content>
+					    <List noDataText="Drop list items here" id="list0" items="{path:'/YC_FI_03_02',parameters:{expand:'to_DocumentItem',select:'FiscalYear,AccDocId,AccDocItemId,ClearingStatusText'}}">
+					        <items>
+					            <StandardListItem type="Navigation" title="{AccDocId}" description="{Text}" icon="sap-icon://picture" id="item0"/>
+					        </items>
+					    </List>
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>
